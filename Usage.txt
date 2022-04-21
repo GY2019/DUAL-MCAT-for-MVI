@@ -1,0 +1,29 @@
+模型定义：
+       CT 、MR双分支模型
+       CT 三模态数据----> CT分支 ----->CT预测结果 ---------|+
+       MR 六模态数据----> MR分支 ----->MR预测结果------ |+ 两个结果加权融合得到混合预测结果
+
+训练策略：
+       利用 独立的CT数据 和 独立的MR数据 先分别训练CT 分支 和 MR分支，保存模型参数 CTbranch.pth，MRbranch.pth
+       分别加载两个分支的预训练参数，利用CT MR混合数据 共同训练 最终的双分支模型
+
+数据集划分：
+       纯CT数据：50 例训练 10例验证/测试；用于训练CT分支
+       纯MR数据：36例训练 7例验证/测试；用于训练MR
+       CT+MR数据：42例训练 8例验证/测试，用于最终微调双分支模型
+       
+       其中分别训练CT 和 MR分支的时候：1）训练embedding模块时将训练集利用数据增强扩充8倍，以避免过拟合；
+			                 2）训练分类器时，对数据集不进行扩充，为了不引入伪样本对分类器参数的扰动
+       微调 CT+MR双分支时： 对数据集均不进行增强，将一个肿瘤的CT数据 和 MR数据 分别送入CT 和 MR分支，最终结果加权
+
+       CT数据采用：CA CP PRE三个序列中，病灶区域最大的切片  数据维度（batch,3,64,64）
+       MR数据采用：CA2 CP CV DWI T1WI T2WI 六个序列中，病灶区域最大的切片  数据维度（batch,6,64,64）
+
+程序命令：
+       conda activate ygy —— 进入虚拟环境，当前最好自己创建一个单独的环境 ，方便自己使用
+       cd /home/ubuntu/ygy/MVI64Triplet  —— 定位好
+       CUDA_VISIBLE_DEVICES=1 python2 liverCT.py ——预训练CT分支，并保存CTbranch.pth
+       CUDA_VISIBLE_DEVICES=1 python2 liverMR.py ——预训练MR分支，并保存MRbranch.pth
+       CUDA_VISIBLE_DEVICES=1 python2 liverMRACT.py ——微调双分支模型，并保存最终模型twobranchmodel.pth
+
+预处理程序在preprocess里
