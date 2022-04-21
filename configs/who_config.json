@@ -1,0 +1,36 @@
+{
+  "exp_name": "softmax",
+  "data_path": "./data_loader/txtresultaug",  
+  "classes": 2,   
+  "repeat": 1, 
+  "num_epochs": 50,
+  "learning_rate": 0.001,
+  "optimizer": "adam",
+  "batch_size": 40,
+  "Num_train": 25,
+  "Num_test": 7,
+  "patience": 10, 
+  "log_interval":40,
+  "min_lr": 0.00005, 
+  "fusion_type": "concat",
+  "isSample": true,
+  "isTranspose": true,
+  "isSelect": false,
+  "isAug":true,
+  "embedding_size":64,
+  
+  "dictCT": {
+    "A": 2, "B": 7, "K": 12, 
+    "A5":[0,1,2,3,4], "B5":[5,6,7,8,9], "K5":[10,11,12,13,14]
+  },
+  "dictMR": {
+    "A": 2, "B": 7, "K": 12, "E": 17, "F": 22, "G": 27,
+    "A5":[0,1,2,3,4], "B5":[5,6,7,8,9], "K5":[10,11,12,13,14], "E5":[15,16,17,18,19],
+    "F5":[20,21,22,23,24], "G5":[25,26,27,28,29]
+  },
+  "FusionCT": [
+    "A","B","K"],
+  "FusionMR": [
+    "A","B","K","E","F","G"]
+  
+}
