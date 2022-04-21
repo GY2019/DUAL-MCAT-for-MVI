@@ -20,10 +20,6 @@
        MR数据采用：CA2 CP CV DWI T1WI T2WI 六个序列中，病灶区域最大的切片  数据维度（batch,6,64,64）
 
 程序命令：
-       conda activate ygy —— 进入虚拟环境，当前最好自己创建一个单独的环境 ，方便自己使用
-       cd /home/ubuntu/ygy/MVI64Triplet  —— 定位好
        CUDA_VISIBLE_DEVICES=1 python2 liverCT.py ——预训练CT分支，并保存CTbranch.pth
        CUDA_VISIBLE_DEVICES=1 python2 liverMR.py ——预训练MR分支，并保存MRbranch.pth
        CUDA_VISIBLE_DEVICES=1 python2 liverMRACT.py ——微调双分支模型，并保存最终模型twobranchmodel.pth
-
-预处理程序在preprocess里
